@@ -1,5 +1,8 @@
 package app;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class CashRegister {
@@ -35,48 +38,33 @@ public class CashRegister {
 		int changeRemaining = (int) (amountTendered - purchasePrice);
 		String changeString = "";
 
+		HashMap<String, Integer> currency = new LinkedHashMap<String, Integer>();
+		currency.put("twenty dollar bill", 2000);
+		currency.put("ten dollar bill", 1000);
+		currency.put("five dollar bill", 500);
+		currency.put("one dollar bill", 100);
+		currency.put("quarter", 25);
+		currency.put("dime", 10);
+		currency.put("nickel", 5);
+		currency.put("penny", 1);
+
 		if (purchasePrice > amountTendered) {
 			System.out.println("You are short:");
 			makinTheChange(amountTendered / 100, purchasePrice / 100);
 		} else if (purchasePrice == amountTendered) {
 			System.out.println("Spot on!!!");
 		} else {
-			while (changeRemaining > 0) {
-				if (changeRemaining >= 2000) {
-					int numReturn = changeRemaining / 2000;
-					changeRemaining = changeRemaining % 2000;
-					changeString += singleOrPlural(numReturn, changeRemaining, " twenty dollar bill");
-				} else if (changeRemaining >= 1000) {
-					int numReturn = changeRemaining / 1000;
-					changeRemaining = changeRemaining % 1000;
-					changeString += singleOrPlural(numReturn, changeRemaining, " ten dollar bill");
-				} else if (changeRemaining >= 500) {
-					int numReturn = changeRemaining / 500;
-					changeRemaining = changeRemaining % 500;
-					changeString += singleOrPlural(numReturn, changeRemaining, " five dollar bill");
-				} else if (changeRemaining >= 100) {
-					int numReturn = changeRemaining / 100;
-					changeRemaining = changeRemaining % 100;
-					changeString += singleOrPlural(numReturn, changeRemaining, " one dollar bill");
-				} else if (changeRemaining >= 25) {
-					int numReturn = changeRemaining / 25;
-					changeRemaining = changeRemaining % 25;
-					changeString += singleOrPlural(numReturn, changeRemaining, " quarter");
-				} else if (changeRemaining >= 10) {
-					int numReturn = changeRemaining / 10;
-					changeRemaining = changeRemaining % 10;
-					changeString += singleOrPlural(numReturn, changeRemaining, " dime");
-				} else if (changeRemaining >= 5) {
-					int numReturn = changeRemaining / 5;
-					changeRemaining = changeRemaining % 5;
-					changeString += singleOrPlural(numReturn, changeRemaining, " nickel");
-				} else if (changeRemaining >= 1) {
-					int numReturn = changeRemaining / 1;
-					changeRemaining = changeRemaining % 1;
-					changeString += singleOrPlural(numReturn, " penny", " pennies");
+			for (Entry<String, Integer> entry : currency.entrySet()) {
+				if (changeRemaining >= entry.getValue()) {
+					int numReturn = changeRemaining / entry.getValue();
+					changeRemaining = changeRemaining % entry.getValue();
+					if (entry.getValue() == 1) {
+						changeString += singleOrPlural(numReturn, entry.getKey(), "pennies");
+					} else {
+						changeString += singleOrPlural(numReturn, changeRemaining, entry.getKey());
+					}
 				}
 			}
-
 		}
 		System.out.println(changeString);
 	}
@@ -92,14 +80,13 @@ public class CashRegister {
 		if (numReturn > 1) {
 			addS = "s";
 		}
-		return numReturn + moneyType + addS + commaOrPeriod;
+		return numReturn + " " + moneyType + addS + commaOrPeriod;
 	}
 
 	public static String singleOrPlural(int numReturn, String moneyType, String pluralString) {
 		if (numReturn > 1) {
-			return numReturn + pluralString + ".";
+			return numReturn + " " + pluralString + ".";
 		}
-		return numReturn + moneyType + ".";
+		return numReturn + " " + moneyType + ".";
 	}
-
 }
