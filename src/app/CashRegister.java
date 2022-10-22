@@ -39,114 +39,67 @@ public class CashRegister {
 			System.out.println("You are short:");
 			makinTheChange(amountTendered / 100, purchasePrice / 100);
 		} else if (purchasePrice == amountTendered) {
-			System.out.println("Spot on");
+			System.out.println("Spot on!!!");
 		} else {
 			while (changeRemaining > 0) {
 				if (changeRemaining >= 2000) {
 					int numReturn = changeRemaining / 2000;
-					if (numReturn == 1) {
-						changeString += (int) (changeRemaining / 2000) + " twenty dollar bill";
-					} else {
-						changeString += (int) (changeRemaining / 2000) + " twenty dollar bills";
-					}
 					changeRemaining = changeRemaining % 2000;
-					if (changeRemaining >= 1) {
-						changeString += ", ";
-					} else {
-						changeString += ".";
-					}
+					changeString += singleOrPlural(numReturn, changeRemaining, " twenty dollar bill");
 				} else if (changeRemaining >= 1000) {
 					int numReturn = changeRemaining / 1000;
-					if (numReturn == 1) {
-						changeString += (int) (changeRemaining / 1000) + " ten dollar bill";
-					} else {
-						changeString += (int) (changeRemaining / 1000) + " ten dollar bills";
-					}
 					changeRemaining = changeRemaining % 1000;
-					if (changeRemaining >= 1) {
-						changeString += ", ";
-					} else {
-						changeString += ".";
-					}
+					changeString += singleOrPlural(numReturn, changeRemaining, " ten dollar bill");
 				} else if (changeRemaining >= 500) {
 					int numReturn = changeRemaining / 500;
-					if (numReturn == 1) {
-						changeString += (int) (changeRemaining / 500) + " five dollar bill";
-					} else {
-						changeString += (int) (changeRemaining / 500) + " five dollar bills";
-					}
 					changeRemaining = changeRemaining % 500;
-					if (changeRemaining >= 1) {
-						changeString += ", ";
-					} else {
-						changeString += ".";
-					}
+					changeString += singleOrPlural(numReturn, changeRemaining, " five dollar bill");
 				} else if (changeRemaining >= 100) {
-
 					int numReturn = changeRemaining / 100;
-					if (numReturn == 1) {
-						changeString += (int) (changeRemaining / 100) + " one dollar bill";
-					} else {
-						changeString += (int) (changeRemaining / 100) + " one dollar bills";
-					}
 					changeRemaining = changeRemaining % 100;
-					if (changeRemaining >= 1) {
-						changeString += ", ";
-					} else {
-						changeString += ".";
-					}
+					changeString += singleOrPlural(numReturn, changeRemaining, " one dollar bill");
 				} else if (changeRemaining >= 25) {
 					int numReturn = changeRemaining / 25;
-					if (numReturn == 1) {
-						changeString += (int) (changeRemaining / 25) + " quarter";
-					} else {
-						changeString += (int) (changeRemaining / 25) + " quarters";
-					}
 					changeRemaining = changeRemaining % 25;
-					if (changeRemaining >= 1) {
-						changeString += ", ";
-					} else {
-						changeString += ".";
-					}
+					changeString += singleOrPlural(numReturn, changeRemaining, " quarter");
 				} else if (changeRemaining >= 10) {
 					int numReturn = changeRemaining / 10;
-					if (numReturn == 1) {
-						changeString += (int) (changeRemaining / 10) + " dime";
-					} else {
-						changeString += (int) (changeRemaining / 10) + " dimes";
-					}
 					changeRemaining = changeRemaining % 10;
-					if (changeRemaining >= 1) {
-						changeString += ", ";
-					} else {
-						changeString += ".";
-					}
+					changeString += singleOrPlural(numReturn, changeRemaining, " dime");
 				} else if (changeRemaining >= 5) {
 					int numReturn = changeRemaining / 5;
-					if (numReturn == 1) {
-						changeString += (int) (changeRemaining / 5) + " nickel";
-					} else {
-						changeString += (int) (changeRemaining / 5) + " nickels";
-					}
 					changeRemaining = changeRemaining % 5;
-					if (changeRemaining >= 1) {
-						changeString += ", ";
-					} else {
-						changeString += ".";
-					}
+					changeString += singleOrPlural(numReturn, changeRemaining, " nickel");
 				} else if (changeRemaining >= 1) {
 					int numReturn = changeRemaining / 1;
-					if (numReturn == 1) {
-						changeString += (int) (changeRemaining / 1) + " penny";
-					} else {
-						changeString += (int) (changeRemaining / 1) + " pennies";
-					}
 					changeRemaining = changeRemaining % 1;
-					changeString += ".";
+					changeString += singleOrPlural(numReturn, " penny", " pennies");
 				}
 			}
 
 		}
 		System.out.println(changeString);
 	}
+
+	public static String singleOrPlural(int numReturn, int changeRemaining, String moneyType) {
+		String commaOrPeriod = "";
+		String addS = "";
+		if (changeRemaining >= 1) {
+			commaOrPeriod = ", ";
+		} else {
+			commaOrPeriod = ".";
+		}
+		if (numReturn > 1) {
+			addS = "s";
+		}
+		return numReturn + moneyType + addS + commaOrPeriod;
+	}
+
+	public static String singleOrPlural(int numReturn, String moneyType, String pluralString) {
+		if (numReturn > 1) {
+			return numReturn + pluralString + ".";
+		}
+		return numReturn + moneyType + ".";
+	}
+
 }
