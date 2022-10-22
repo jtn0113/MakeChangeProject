@@ -33,15 +33,14 @@ public class CashRegister {
 		purchasePrice *= 100;
 		amountTendered *= 100;
 		int changeRemaining = (int) (amountTendered - purchasePrice);
-		String changeString = "You are owed:\n";
+		String changeString = "";
 
 		if (purchasePrice > amountTendered) {
-			System.out.println("You are short: ");
+			System.out.println("You are short:");
 			makinTheChange(amountTendered / 100, purchasePrice / 100);
 		} else if (purchasePrice == amountTendered) {
 			System.out.println("Spot on");
 		} else {
-
 			while (changeRemaining > 0) {
 				if (changeRemaining >= 2000) {
 					int numReturn = changeRemaining / 2000;
